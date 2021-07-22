@@ -13,7 +13,7 @@ const Layout = ({fullWidth, children, grid}: Props) => {
   return (
     <>
       <Header />
-      <PageContainer fullWidth={!fullWidth} grid={!grid}>
+      <PageContainer fullWidth={fullWidth} grid={grid}>
         {children}
       </PageContainer>
       <Footer />
@@ -23,7 +23,7 @@ const Layout = ({fullWidth, children, grid}: Props) => {
 
 export default Layout;
 
-const PageContainer = styled.div((props: {fullWidth: boolean, grid: boolean}) => ({
+const PageContainer = styled.div((props: {fullWidth?: boolean, grid?: boolean}) => ({
   display: 'flex',
   justifyContent: props.grid ? 'center' : 'top',
   flexDirection: props.grid ? 'row' : 'column',

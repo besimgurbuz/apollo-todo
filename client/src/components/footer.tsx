@@ -9,7 +9,7 @@ interface Props {
 const Footer = ({children}: Props) => {
   return (
     <FooterContainer>
-      2021 ©{' '}
+      2021 ©{'Besim Gurbuz'}
     </FooterContainer>
   );
 };

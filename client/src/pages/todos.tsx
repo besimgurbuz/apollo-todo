@@ -1,5 +1,5 @@
 import React from 'react';
-import {RouteComponentProps} from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import { Layout } from '../components';
 
 interface Props extends RouteComponentProps {}
