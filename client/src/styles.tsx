@@ -15,6 +15,7 @@ export const colors = {
   primary: '#40514e',
   secondary: '#2f89fc',
   accent: '#30e3ca',
+  warn: '#feb062',
   background: '#f5f5f5',
   grey: '#dee1ec',
   text: '#40514e',
@@ -38,7 +39,6 @@ const GlobalStyles = () => (
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100%',
-        backgroundImage: 'url("/space_kitty_pattern.png")',
       },
       '*': {
         boxSizing: 'border-box',
