@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import Pages from './pages'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import GlobalStyles from './styles'
 
 
 const client = new ApolloClient({
@@ -13,6 +13,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
+      <GlobalStyles />
       <Pages />
     </ApolloProvider>
   </React.StrictMode>,
