@@ -54,6 +54,7 @@ const TodoEntry = ({ todo, onDeleteTodo }: Props) => {
   return (
     <TodoEntryContainer completed={completed}>
       <Checkbox
+        id={id}
         defaultChecked={completed}
         onChange={dispatchCompleteTodo}
         style={{
@@ -66,11 +67,11 @@ const TodoEntry = ({ todo, onDeleteTodo }: Props) => {
         }}
       />
       <EntryBodyContainer checked={completed}>
-        <h2>{title}</h2>
+        <label htmlFor={id}>{title}</label>
         <p>{moment(dueDate).fromNow()}</p>
       </EntryBodyContainer>
       <DeleteButton onClick={() => onDeleteTodo(id)}>
-        <DeleteIcon />
+        <DeleteIcon completed={completed} />
       </DeleteButton>
     </TodoEntryContainer>
   );
@@ -117,8 +118,9 @@ const DeleteButton = styled.button({
   margin: 0,
 });
 
-const DeleteIcon = styled(CloseIcon)({
+const DeleteIcon = styled(CloseIcon)((props: { completed: boolean }) => ({
   position: 'absolute',
   top: `${unit}px`,
   right: `${unit}px`,
-});
+  color: props.completed ? colors.grey : 'inherit',
+}));
