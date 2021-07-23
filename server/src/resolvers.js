@@ -5,15 +5,15 @@ const resolvers = {
     }
   },
   Mutation: {
-    completeTodo: async (_, { id }, { dataSources }) => {
+    changeComplete: async (_, { id, status }, { dataSources }) => {
       try {
-        const completedResult = await dataSources.todoRepository.completeTodo(id);
+        const changedResult = await dataSources.todoRepository.changeComplete(id, status);
 
         return {
           code: 204,
           success: true,
-          message: `Successfully updated todo ${id}`,
-          todo: completedResult
+          message: `Successfully changed completed status of ${id}`,
+          todo: changedResult
         }
       } catch (err) {
         return {

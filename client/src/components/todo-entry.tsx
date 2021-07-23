@@ -8,16 +8,16 @@ import { colors, unit } from '../styles';
 import { gql, useMutation } from '@apollo/client';
 
 const DISPATCH_COMPLETE = gql`
-  mutation dispatchCompleteTodo($id: ID!) {
-    completeTodo(id: $id) {
+  mutation dispatchCompleteTodo($id: ID!, $status: Boolean!) {
+    changeComplete(id: $id, status: $status) {
       code
-      message
       success
+      message
       todo {
         completed
-        id
-        title
         dueDate
+        title
+        id
       }
     }
   }
@@ -34,17 +34,20 @@ interface Props {
 
 const TodoEntry = ({ todo }: Props) => {
   const { id, completed, title, dueDate } = todo;
-  const [completeQuery, { loading, error, data }] = useMutation(
-    DISPATCH_COMPLETE,
-    { variables: { id } }
-  );
+  const [completeTodo] = useMutation(DISPATCH_COMPLETE, {
+    variables: { id, status: true },
+  });
+  const [uncompleteTodo] = useMutation(DISPATCH_COMPLETE, {
+    variables: { id, status: false },
+  });
 
   const dispatchCompleteTodo = (event: ChangeEvent) => {
     const isChecked = (event.target as HTMLInputElement).checked;
 
     if (isChecked) {
-      completeQuery();
-      console.log(loading, error, data);
+      completeTodo();
+    } else {
+      uncompleteTodo();
     }
   };
 
@@ -59,7 +62,7 @@ const TodoEntry = ({ todo }: Props) => {
           padding: 0,
           top: unit,
           left: unit,
-          color: completed ? colors.grey : colors.primary,
+          color: completed ? colors.grey : colors.secondary,
         }}
       />
       <EntryBodyContainer checked={completed}>
@@ -77,7 +80,7 @@ const TodoEntryContainer = styled.div((props: { completed: boolean }) => ({
   display: 'flex',
   flexDirection: 'row',
   border: `solid 1px ${props.completed ? colors.grey : colors.secondary}`,
-  color: props.completed ? colors.grey : 'black',
+  color: props.completed ? colors.grey : colors.secondary,
   borderRadius: unit,
   minWidth: 300,
   padding: `${unit}px ${unit * 4}px`,
@@ -99,6 +102,7 @@ const EntryBodyContainer = styled.div((props: { checked: boolean }) => ({
   p: {
     margin: 0,
     fontSize: `${unit * 1.5}px`,
+    color: props.checked ? colors.grey : colors.accent,
   },
 }));
 

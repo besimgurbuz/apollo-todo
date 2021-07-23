@@ -7,11 +7,12 @@ class TodoRepository extends MongoDataSource {
     return this.collection.find().toArray();
   }
 
-  async completeTodo(id) {
-    const updated = await this.collection.findOneAndUpdate({ id }, { $set: { completed: true } });
+  async changeComplete(id, status) {
+    await this.collection.updateOne({ id }, { $set: { completed: status } });
+    const updated = await this.collection.findOne({ id });
 
-    if (updated.value) {
-      return updated.value;
+    if (updated) {
+      return updated;
     }
     throw new Error('Todo not found');
   }
