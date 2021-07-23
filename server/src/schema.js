@@ -7,7 +7,7 @@ const typeDefs = gql`
 
   type Mutation {
     changeComplete(id: ID!, status: Boolean!): ChangeCompleteResponse!
-    removeTodo(id: ID!): RemoveTodoResponse!
+    deleteTodo(id: ID!): DeleteTodoResponse!
   }
 
   type ChangeCompleteResponse {
@@ -17,7 +17,7 @@ const typeDefs = gql`
     todo: Todo
   }
 
-  type RemoveTodoResponse {
+  type DeleteTodoResponse {
     code: Int!
     success: Boolean!
     message: String

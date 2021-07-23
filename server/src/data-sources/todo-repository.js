@@ -16,6 +16,15 @@ class TodoRepository extends MongoDataSource {
     }
     throw new Error('Todo not found');
   }
+
+  async deleteTodo(id) {
+    const deleted = await this.collection.findOneAndDelete({ id });
+
+    if (deleted.value) {
+      return deleted.value;
+    }
+    throw new Error('Todo not found');
+  }
 }
 
 module.exports = TodoRepository;

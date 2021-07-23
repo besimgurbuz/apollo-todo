@@ -10,11 +10,30 @@ const resolvers = {
         const changedResult = await dataSources.todoRepository.changeComplete(id, status);
 
         return {
-          code: 204,
+          code: 200,
           success: true,
           message: `Successfully changed completed status of ${id}`,
           todo: changedResult
         }
+      } catch (err) {
+        return {
+          code: err.extensions ? err.extensions.response.status : 400,
+          success: false,
+          message: err.extensions ? err.extensions.response.body : err.message,
+          todo: null
+        };
+      }
+    },
+    deleteTodo: async (_, { id }, { dataSources }) => {
+      try {
+        const deleted = await dataSources.todoRepository.deleteTodo(id);
+
+        return {
+          code: 204,
+          success: true,
+          message: `Successfully deleted ${id}`,
+          todo: deleted
+        };
       } catch (err) {
         return {
           code: err.extensions ? err.extensions.response.status : 400,

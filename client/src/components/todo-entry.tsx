@@ -22,7 +22,6 @@ const DISPATCH_COMPLETE = gql`
     }
   }
 `;
-
 interface Props {
   todo: {
     id: string;
@@ -30,9 +29,10 @@ interface Props {
     completed: boolean;
     dueDate: string;
   };
+  onDeleteTodo: (id: string) => void;
 }
 
-const TodoEntry = ({ todo }: Props) => {
+const TodoEntry = ({ todo, onDeleteTodo }: Props) => {
   const { id, completed, title, dueDate } = todo;
   const [completeTodo] = useMutation(DISPATCH_COMPLETE, {
     variables: { id, status: true },
@@ -69,7 +69,9 @@ const TodoEntry = ({ todo }: Props) => {
         <h2>{title}</h2>
         <p>{moment(dueDate).fromNow()}</p>
       </EntryBodyContainer>
-      <RemoveIcon />
+      <DeleteButton onClick={() => onDeleteTodo(id)}>
+        <DeleteIcon />
+      </DeleteButton>
     </TodoEntryContainer>
   );
 };
@@ -106,7 +108,16 @@ const EntryBodyContainer = styled.div((props: { checked: boolean }) => ({
   },
 }));
 
-const RemoveIcon = styled(CloseIcon)({
+const DeleteButton = styled.button({
+  cursor: 'pointer',
+  backgroundColor: 'transparent',
+  border: 'none',
+  outline: 'none',
+  padding: 0,
+  margin: 0,
+});
+
+const DeleteIcon = styled(CloseIcon)({
   position: 'absolute',
   top: `${unit}px`,
   right: `${unit}px`,
