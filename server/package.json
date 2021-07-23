@@ -9,8 +9,11 @@
   "author": "Besim Gurbuz <mbesimgurbuz@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "apollo-datasource-mongodb": "^0.4.6",
     "apollo-server": "^3.0.2",
-    "graphql": "^15.5.1"
+    "graphql": "^15.5.1",
+    "mongodb": "^4.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",

@@ -1,25 +1,25 @@
+require('dotenv').config();
 const { ApolloServer } = require('apollo-server');
+const { MongoClient } = require('mongodb');
+
+const TodoRepository = require('./data-sources/todo-repository');
+const resolvers = require('./resolvers');
 const typeDefs = require('./schema');
 
-const mocks = {
-  Query: () => ({
-    getTodos: () => [...new Array(9)],
-  }),
-  Todo: () => ({
-    id: () => 'todo_01',
-    title: () => 'Todo title',
-    dueDate: () => '2021-07-22T17:42:09.721Z',
-    completed: () => false
-  }),
-};
+const { DB_USERNAME, DB_PASSWORD, DB_HOSTNAME } = process.env;
+
+const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOSTNAME}?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect();
 
 const server = new ApolloServer({
   typeDefs,
-  mocks,
+  resolvers,
+  dataSources: () => ({
+    todoRepository: new TodoRepository(client.db().collection('todos'))
+  })
 });
 
 server.listen().then(() => {
-  console.log(`
-    Server is running on port 4000
-  `)
+  console.log('\nServer is running on port 4000\n')
 })
