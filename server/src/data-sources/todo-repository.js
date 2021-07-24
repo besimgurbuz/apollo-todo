@@ -25,6 +25,10 @@ class TodoRepository extends MongoDataSource {
     }
     throw new Error('Todo not found');
   }
+
+  addTodo(todo) {
+    return this.collection.insertOne(todo);
+  }
 }
 
 module.exports = TodoRepository;

@@ -1,3 +1,5 @@
+const uuid = require('uuid').v4;
+
 const resolvers = {
   Query: {
     getTodos: (_, __, { dataSources }) => {
@@ -34,6 +36,26 @@ const resolvers = {
           message: `Successfully deleted ${id}`,
           todo: deleted
         };
+      } catch (err) {
+        return {
+          code: err.extensions ? err.extensions.response.status : 400,
+          success: false,
+          message: err.extensions ? err.extensions.response.body : err.message,
+          todo: null
+        };
+      }
+    },
+    addTodo: async (_, { body, dueDate }, { dataSources }) => {
+      try {
+        const newTodo = { id: uuid(), title: body, dueDate: new Date(dueDate).toISOString(), completed: false };
+        const insertResult = await dataSources.todoRepository.addTodo(newTodo);
+
+        return {
+          code: 201,
+          success: true,
+          message: 'New todo created',
+          todo: newTodo
+        }
       } catch (err) {
         return {
           code: err.extensions ? err.extensions.response.status : 400,
