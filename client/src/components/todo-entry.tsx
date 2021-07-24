@@ -66,7 +66,7 @@ const TodoEntry = ({ todo, onDeleteTodo }: Props) => {
           color: completed ? colors.grey : colors.secondary,
         }}
       />
-      <EntryBodyContainer checked={completed}>
+      <EntryBodyContainer completed={completed}>
         <label htmlFor={id}>{title}</label>
         <p>{moment(dueDate).fromNow()}</p>
       </EntryBodyContainer>
@@ -91,21 +91,21 @@ const TodoEntryContainer = styled.div((props: { completed: boolean }) => ({
   position: 'relative',
 }));
 
-const EntryBodyContainer = styled.div((props: { checked: boolean }) => ({
+const EntryBodyContainer = styled.div((props: { completed: boolean }) => ({
   flex: 2,
   display: 'flex',
   flexDirection: 'column',
   gap: `${unit}px`,
-  h2: {
+  label: {
     margin: 0,
-    textDecoration: props.checked ? 'line-through' : 'none',
+    textDecoration: props.completed ? 'line-through' : 'none',
     fontWeight: 500,
     fontSize: `${unit * 2.5}px`,
   },
   p: {
     margin: 0,
     fontSize: `${unit * 1.5}px`,
-    color: props.checked ? colors.grey : colors.accent,
+    color: props.completed ? colors.grey : colors.accent,
   },
 }));
 

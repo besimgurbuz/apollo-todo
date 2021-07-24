@@ -85,6 +85,7 @@ const TodosContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   gap: `${unit * 3}px`,
+  minWidth: 300,
 });
 
 const EntryListContainer = styled.div({
